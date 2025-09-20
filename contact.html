@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Restaurant - Contact</title>
+    <link rel="stylesheet" href="stylecss/style.css">
+</head>
+
+<body>
+    <div class="container">
+        <header>
+            <div class="logo">🍴 RESTAURANT</div>
+            <nav>
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="menu.html">Menu</a></li>
+                    <li><a href="about.html">About</a></li>
+                    <li><a href="contact.html" class="active">Contact</a></li>
+                </ul>
+            </nav>
+        </header>
+
+        <main class="main-container">
+            <section class="page-header">
+                <h1>Contact Us</h1>
+                <p>Get in touch and share your feedback</p>
+            </section>
+
+
+            <section class="comments" id="comments">
+                <h2>CUSTOMER FEEDBACK</h2>
+
+                <div class="comments-container">
+                    <div id="commentsList"><!-- rendered by JS --></div>
+                    <div class="form-actions">
+                        <span id="commentsCount" class="comments-count" aria-live="polite"></span>
+                    </div>
+                </div>
+
+                <div class="comment-form-card" aria-labelledby="addCommentTitle">
+                    <div class="card-header">
+                        <h3 id="addCommentTitle">Add a Comment</h3>
+                        <p class="card-sub">
+                            Share your feedback — your name and comment will be shown publicly.
+                        </p>
+                    </div>
+
+                    <form id="commentsForm" class="comments-form" autocomplete="off">
+                        <div class="row">
+                            <label class="field">
+                                <span class="label-text">Name <span class="req">*</span></span>
+                                <input id="commenterName" type="text" placeholder="Your full name" required />
+                            </label>
+
+                            <label class="field">
+                                <span class="label-text">Email</span>
+                                <input id="commenterEmail" type="email" placeholder="Email (optional)" />
+                            </label>
+                        </div>
+
+                        <label class="field">
+                            <span class="label-text">Comment <span class="req">*</span></span>
+                            <textarea id="commenterText" placeholder="Write your comment..." required></textarea>
+                        </label>
+
+                        <div class="form-actions">
+                            <button type="submit" class="btn submit-btn">
+                                Add Comment
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </section>
+
+
+            <section class="profile expanded-profile" id="profile">
+                <div class="profile-card">
+                    <img src="images/Shehab.JPG" alt="Shehab Al-deen Raadan" class="profile-img" />
+                    <div class="profile-info">
+                        <h2>Shehab Al-deen Raadan</h2>
+                        <p class="profile-role">Restaurant Owner &amp; Developer</p>
+                        <p class="profile-bio">
+                            Hello, I am Shehab Raadan. I work on website development and
+                            restaurant management. I love building useful tools for
+                            developers and working on AI projects.
+                        </p>
+
+                        <div class="profile-details">
+                            <h3>Contact Information</h3>
+                            <div class="contact-info">
+                                <div class="contact-item">
+                                    <span>Email: shehab@gmail.com</span>
+                                </div>
+                                <div class="contact-item">
+                                    <span>Phone: +967770939359</span>
+                                </div>
+                                <div class="contact-item">
+                                    <span>Address: 123 Main Street, City, Country</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="profile-links">
+                            <a href="https://www.facebook.com/shf59" target="_blank">Facebook</a>
+                            <a href="https://www.instagram.com/9shr5?igsh=YzljYTk1ODg3Zg=="
+                                target="_blank">Instagram</a>
+                            <a href="mailto:shehab@gmail.com">Email</a>
+                            <a href="tel:+967770939359">Call Now</a>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <footer>
+            <p>&copy; 2025 Restaurant. All Rights Reserved. Shehab Al-Deen Radan</p>
+        </footer>
+    </div>
+
+    <script>
+
+        (function () {
+            const STORAGE_KEY = "savedComments_v1";
+            const commentsListEl = document.getElementById("commentsList");
+            const form = document.getElementById("commentsForm");
+            const inputName = document.getElementById("commenterName");
+            const inputEmail = document.getElementById("commenterEmail");
+            const inputText = document.getElementById("commenterText");
+            const commentsCountEl = document.getElementById("commentsCount");
+
+            function escapeHtml(str) {
+                return String(str)
+                    .replace(/&/g, "&amp;")
+                    .replace(/</g, "&lt;")
+                    .replace(/>/g, "&gt;")
+                    .replace(/"/g, "&quot;")
+                    .replace(/'/g, "&#39;");
+            }
+
+            function loadSavedComments() {
+                try {
+                    const raw = localStorage.getItem(STORAGE_KEY);
+                    if (!raw) return [];
+                    const parsed = JSON.parse(raw);
+                    return Array.isArray(parsed) ? parsed : [];
+                } catch (e) {
+                    console.warn("Could not parse saved comments", e);
+                    return [];
+                }
+            }
+
+            function saveComments(arr) {
+                try {
+                    localStorage.setItem(STORAGE_KEY, JSON.stringify(arr));
+                } catch (e) {
+                    console.warn("Could not save comments", e);
+                }
+            }
+
+            function renderComments() {
+                const saved = loadSavedComments();
+                commentsListEl.innerHTML = "";
+                if (saved.length === 0) {
+                    commentsListEl.innerHTML =
+                        '<p style="color:#666">No comments yet. Be the first!</p>';
+                } else {
+                    saved.forEach((comment) => {
+                        const card = document.createElement("div");
+                        card.className = "comment-card";
+                        const meta = document.createElement("div");
+                        meta.className = "comment-meta";
+                        meta.innerHTML =
+                            `<strong>${escapeHtml(comment.name || "Anonymous")}</strong>` +
+                            (comment.email
+                                ? ` <span class="comment-email">(${escapeHtml(
+                                    comment.email
+                                )})</span>`
+                                : "") +
+                            ` <span class="comment-date">${escapeHtml(
+                                comment.date
+                            )}</span>`;
+                        const body = document.createElement("div");
+                        body.className = "comment-body";
+                        body.textContent = comment.text || "";
+                        card.appendChild(meta);
+                        card.appendChild(body);
+                        commentsListEl.appendChild(card);
+                    });
+                }
+                commentsCountEl.textContent = `Total: ${saved.length}`;
+            }
+
+            form.addEventListener("submit", (e) => {
+                e.preventDefault();
+                const name = inputName.value.trim();
+                const email = inputEmail.value.trim();
+                const text = inputText.value.trim();
+                if (!name || !text) {
+                    alert("Please provide your name and comment.");
+                    return;
+                }
+                const dateStr = new Date().toLocaleString();
+                const newComment = { name, email, text, date: dateStr };
+                const saved = loadSavedComments();
+                saved.unshift(newComment);
+                saveComments(saved);
+                form.reset();
+                inputName.focus();
+                renderComments();
+            });
+
+            renderComments();
+        })();
+    </script>
+</body>
+
+</html>

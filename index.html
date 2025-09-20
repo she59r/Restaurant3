@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Restaurant - Home</title>
+  <link rel="stylesheet" href="stylecss/style.css" />
+
+  <!-- Start WOWSlider.com HEAD section --> <!-- add to the <head> of your page -->
+  <link rel="stylesheet" type="text/css" href="engine0/style.css" />
+  <script type="text/javascript" src="engine0/jquery.js"></script>
+  <!-- End WOWSlider.com HEAD section -->
+</head>
+
+<body>
+  <div class="container">
+    <header>
+      <div class="logo">🍴 RESTAURANT</div>
+      <nav>
+        <ul>
+          <li><a href="index.html" class="active">Home</a></li>
+          <li><a href="menu.html">Menu</a></li>
+          <li><a href="about.html">About</a></li>
+          <li><a href="contact.html">Contact</a></li>
+        </ul>
+      </nav>
+    </header>
+
+    <main class="main-container">
+
+      <div class="hero">
+        <!-- Start WOWSlider.com BODY section --> <!-- add to the <body> of your page -->
+        <div id="wowslider-container0">
+          <div class="ws_images">
+            <ul>
+              <li><img src="data0/images/breakfast_dessert.jpg" alt="Breakfast dessert" title="Breakfast dessert"
+                  id="wows0_0" /></li>
+              <li><img src="data0/images/breakfast.jpg" alt="breakfast" title="breakfast" id="wows0_1" /></li>
+              <li><img src="data0/images/broast_burger.jpg" alt="Broast Burger" title="Broast Burger" id="wows0_2" />
+              </li>
+              <li><a href="http://wowslider.net"><img src="data0/images/chocolatecake.jpg" alt="jquery image carousel"
+                    title="chocolate-cake" id="wows0_3" /></a></li>
+              <li><img src="data0/images/crab_meat.jpg" alt="crab meat" title="crab meat" id="wows0_4" /></li>
+            </ul>
+          </div>
+          <div class="ws_bullets">
+            <div>
+              <a href="#" title="Breakfast dessert"><span><img src="data0/tooltips/breakfast_dessert.jpg"
+                    alt="Breakfast dessert" />1</span></a>
+              <a href="#" title="breakfast"><span><img src="data0/tooltips/breakfast.jpg" alt="breakfast" />2</span></a>
+              <a href="#" title="Broast Burger"><span><img src="data0/tooltips/broast_burger.jpg"
+                    alt="Broast Burger" />3</span></a>
+              <a href="#" title="chocolate-cake"><span><img src="data0/tooltips/chocolatecake.jpg"
+                    alt="chocolate-cake" />4</span></a>
+              <a href="#" title="crab meat"><span><img src="data0/tooltips/crab_meat.jpg" alt="crab meat" />5</span></a>
+            </div>
+          </div>
+          <div class="ws_script" style="position:absolute;left:-99%"><a href="http://wowslider.net">css slideshow</a> by
+            WOWSlider.com v9.0</div>
+          <div class="ws_shadow"></div>
+        </div>
+        <script type="text/javascript" src="engine0/wowslider.js"></script>
+        <script type="text/javascript" src="engine0/script.js"></script>
+        <!-- End WOWSlider.com BODY section -->
+      </div>
+      <section class="dishes" id="dishes">
+        <h2>POPULAR DISHES</h2>
+        <div class="dish-container">
+          <div class="dish">
+            <img src="images/grilled-meat.jpg" alt="Grilled Meat" />
+            <p>GRILLED MEAT</p>
+          </div>
+          <div class="dish">
+            <img src="images/spaghetti.jpg" alt="Spaghetti" />
+            <p>SPAGHETTI</p>
+          </div>
+          <div class="dish">
+            <img src="images/chocolate-cake.jpg" alt="Chocolate Cake" />
+            <p>CHOCOLATE CAKE</p>
+          </div>
+        </div>
+        <div class="center-btn">
+          <a href="menu.html" class="btn">View Full Menu</a>
+        </div>
+      </section>
+
+
+      <section class="about" id="about">
+        <div class="about-text">
+          <h2>ABOUT US</h2>
+          <p>
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed diam
+            nonummy nibh euismod tincidunt ut laoreet dolore magna.
+          </p>
+          <a href="about.html" class="btn">Read More</a>
+        </div>
+        <div class="about-img">
+          <img src="images/meat-dish.jpg" alt="About dish" />
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      <p>&copy; 2025 Restaurant. All Rights Reserved. Shehab Al-Deen Radan</p>
+    </footer>
+  </div>
+
+  <script>
+
+    (function () {
+      const slides = Array.from(document.querySelectorAll(".slide"));
+      const prevBtn = document.querySelector(".prev");
+      const nextBtn = document.querySelector(".next");
+      let currentIndex = slides.findIndex((s) =>
+        s.classList.contains("active")
+      );
+      if (currentIndex === -1) currentIndex = 0;
+
+      function showSlide(index) {
+        if (!slides.length) return;
+        index = (index + slides.length) % slides.length;
+        slides.forEach((s, i) => s.classList.toggle("active", i === index));
+        currentIndex = index;
+      }
+
+      function gotoNext() {
+        showSlide(currentIndex + 1);
+      }
+      function gotoPrev() {
+        showSlide(currentIndex - 1);
+      }
+
+      if (nextBtn)
+        nextBtn.addEventListener("click", (e) => {
+          e.preventDefault();
+          gotoNext();
+          resetAutoplay();
+        });
+      if (prevBtn)
+        prevBtn.addEventListener("click", (e) => {
+          e.preventDefault();
+          gotoPrev();
+          resetAutoplay();
+        });
+
+      const AUTOPLAY_MS_DEFAULT = 10000;
+      let autoplayMs = AUTOPLAY_MS_DEFAULT;
+      let autoplayId = null;
+
+      function startAutoplay() {
+        stopAutoplay();
+        autoplayId = setInterval(() => gotoNext(), autoplayMs);
+      }
+      function stopAutoplay() {
+        if (autoplayId !== null) {
+          clearInterval(autoplayId);
+          autoplayId = null;
+        }
+      }
+      function resetAutoplay() {
+        stopAutoplay();
+        startAutoplay();
+      }
+
+      showSlide(currentIndex);
+      startAutoplay();
+    })();
+  </script>
+</body>
+
+</html>
